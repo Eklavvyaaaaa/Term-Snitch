@@ -1,0 +1,777 @@
+/* src/index.css */
+
+/* Custom Properties (Variables) for easier theme management */
+:root {
+  --color-dark-bg: #121212;
+  --color-card-bg: #1e1e1e;
+  --color-darker-card-bg: #2a2a2a;
+  --color-light-text: #e0e0e0;
+  --color-medium-text: #a0a0a0;
+  --color-subtle-text: #b0b0b0;
+  --color-accent-purple: #c084fc;
+  --color-accent-purple-hover: #d8b4fe;
+  --color-link-blue: #8c7ae6;
+  --color-link-blue-hover: #a29bfe;
+  --color-cta-primary: #6a5acd;
+  --color-cta-primary-hover: #7b68ee;
+  --color-risk-green: #28a745;
+  --color-risk-orange: #ffc107;
+  --color-risk-red: #dc3545;
+  --color-reco-green: #69F0AE;
+
+  --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 5px 15px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 8px 25px rgba(0, 0, 0, 0.5);
+  --shadow-inner-dark: inset 0 0 8px rgba(0, 0, 0, 0.2);
+  --shadow-inner-dark-md: inset 0 0 8px rgba(0, 0, 0, 0.3);
+
+  --border-color: #333;
+  --border-light-color: #gray-700;
+}
+
+/* Basic Reset & Body Styles */
+body {
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-dark-bg);
+  color: var(--color-light-text);
+  overflow: hidden; /* Prevent body scroll, views manage their own */
+}
+
+/* Optional: Import Google Fonts */
+/* @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap'); */
+
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden; /* Crucial for animation containment */
+}
+
+.main-content {
+  flex-grow: 1;
+  width: 100%;
+  box-sizing: border-box;
+  position: relative; /* Essential for absolute positioning of views */
+  overflow: hidden; /* Ensure views don't bleed during transitions */
+}
+
+.view-transition-group {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Base styles for all views managed by CSSTransition */
+.home-view-container,
+.dashboard-view-container,
+.policy-details-view-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 3rem 2rem; /* Consistent padding with main content */
+  overflow-y: auto; /* Allow content to scroll */
+}
+
+
+/* --- Navbar Styles --- */
+.navbar {
+  background-color: var(--color-card-bg);
+  box-shadow: var(--shadow-sm);
+  padding: 1rem 0;
+  position: relative;
+  z-index: 10; /* Ensures navbar is above views */
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navbar-brand-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 1.9rem;
+  font-weight: bold;
+  color: var(--color-accent-purple);
+  transition: color 0.2s ease-in-out;
+}
+
+.navbar-brand-button:hover {
+  color: var(--color-accent-purple-hover);
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2rem;
+}
+
+.navbar-link-button {
+  background: none;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-medium-text);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  font-weight: 400;
+}
+
+.navbar-link-button:hover {
+  background-color: var(--color-darker-card-bg);
+  color: var(--color-light-text);
+}
+
+/* --- Homepage (HomeView) Styles --- */
+.home-view-container {
+  background-color: var(--color-card-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 3rem;
+  border-radius: 0px; /* Full width, no rounding on main views */
+  box-shadow: var(--shadow-lg);
+}
+
+.home-view-title {
+  font-size: 4rem;
+  font-weight: 800;
+  color: var(--color-light-text);
+  margin-bottom: 1.8rem;
+  line-height: 1.1;
+  letter-spacing: -0.05em;
+}
+
+.home-view-description {
+  font-size: 1.35rem;
+  color: var(--color-medium-text);
+  max-width: 55rem;
+  margin-bottom: 3.5rem;
+  line-height: 1.7;
+}
+
+.home-view-cta-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+.home-view-cta-button {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--color-link-blue), var(--color-accent-purple));
+  color: #fff;
+  font-weight: bold;
+  padding: 1.2rem 3rem;
+  border-radius: 50px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.25rem;
+  border: none; /* Ensure no button border */
+}
+
+.home-view-cta-button:hover {
+  background: linear-gradient(45deg, var(--color-link-blue-hover), var(--color-accent-purple-hover));
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.5);
+}
+
+.home-view-small-text {
+  font-size: 0.95rem;
+  color: var(--color-subtle-text);
+}
+
+.home-view-dashboard-link-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-link-blue);
+  text-decoration: none;
+  transition: text-decoration 0.2s ease-in-out;
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-top: 5rem;
+}
+
+.home-view-dashboard-link-button:hover {
+  text-decoration: underline;
+}
+
+/* --- DashboardView Styles --- */
+.dashboard-view-container {
+  background-color: var(--color-dark-bg);
+  padding: 3rem 2rem; /* Consistent padding */
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-view-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+  padding: 0 1rem; /* Padding to match general layout */
+}
+
+.dashboard-view-back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-link-blue);
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: text-decoration 0.2s ease-in-out;
+}
+
+.dashboard-view-back-button:hover {
+  text-decoration: underline;
+}
+
+.dashboard-view-title {
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: var(--color-light-text);
+  text-align: center;
+}
+
+.dashboard-view-spacer {
+  width: 100px; /* To balance the back button */
+  visibility: hidden;
+}
+
+.dashboard-view-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2.5rem;
+  padding: 0 1rem; /* Padding to match general layout */
+}
+
+/* --- Loading/Error/No Policies States --- */
+.loading-state-container,
+.error-state-container,
+.no-policies-state-container {
+  text-align: center;
+  padding: 4rem;
+  background-color: var(--color-card-bg);
+  border-radius: 12px;
+  box-shadow: var(--shadow-md);
+  margin: 2rem auto; /* Center in parent, consistent margin */
+  max-width: 800px; /* Max width for these states */
+  width: 100%;
+  box-sizing: border-box;
+}
+.loading-state-container.details-loading,
+.error-state-container.details-error,
+.no-policies-state-container.details-not-found {
+  margin-top: 2rem; /* Adjust top margin for details view */
+}
+
+.spinner {
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top: 4px solid var(--color-accent-purple);
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.5rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loading-state-text {
+  font-size: 1.3rem;
+  color: var(--color-medium-text);
+}
+
+.error-state-message {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--color-risk-red);
+}
+
+.error-state-text {
+  font-size: 1.3rem;
+  color: var(--color-light-text);
+  margin-top: 0.5rem;
+}
+
+.error-state-details {
+  margin-top: 1rem;
+  color: var(--color-subtle-text);
+  font-size: 1rem;
+}
+
+.no-policies-state-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  color: var(--color-light-text);
+  margin-bottom: 1.5rem;
+}
+
+.no-policies-state-text {
+  font-size: 1.2rem;
+  color: var(--color-medium-text);
+  line-height: 1.6;
+}
+
+.no-policies-state-cta-button {
+  display: inline-block;
+  background: linear-gradient(45deg, var(--color-link-blue), var(--color-accent-purple));
+  color: #fff;
+  font-weight: bold;
+  padding: 1rem 2.5rem;
+  border-radius: 50px;
+  box-shadow: var(--shadow-md);
+  transition: all 0.3s ease-in-out;
+  text-decoration: none;
+  font-size: 1.1rem;
+  border: none;
+  margin-top: 2.5rem;
+}
+
+.no-policies-state-cta-button:hover {
+  background: linear-gradient(45deg, var(--color-link-blue-hover), var(--color-accent-purple-hover));
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* --- PolicyCard Styles --- */
+.policy-card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.policy-card:hover {
+  box-shadow: var(--shadow-xl);
+  transform: translateY(-7px);
+}
+
+.policy-card h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-accent-purple);
+  margin-bottom: 0.6rem;
+}
+
+.policy-card-site-url {
+  font-size: 0.95rem;
+  color: var(--color-medium-text);
+  margin-bottom: 1.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.policy-card-summary {
+  color: var(--color-light-text);
+  font-size: 1.05rem;
+  margin-bottom: 1.8rem;
+  line-height: 1.6;
+}
+
+.policy-card-summary-label {
+  font-weight: 500;
+  color: var(--color-accent-purple);
+}
+
+.policy-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+
+.policy-card-view-details {
+  color: var(--color-link-blue);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+/* --- RiskMeter Styles --- */
+.risk-meter {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.risk-meter.green {
+  background-color: var(--color-risk-green);
+  color: #fff;
+}
+
+.risk-meter.orange {
+  background-color: var(--color-risk-orange);
+  color: #333;
+}
+
+.risk-meter.red {
+  background-color: var(--color-risk-red);
+  color: #fff;
+}
+
+/* --- PolicyDetailsView Styles --- */
+.policy-details-view-container {
+  background-color: var(--color-dark-bg); /* Match body background */
+  padding: 3rem 2rem; /* Consistent padding */
+  box-shadow: none; /* No shadow on the main view container itself */
+}
+
+.policy-details-back-button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--color-link-blue);
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: text-decoration 0.2s ease-in-out;
+}
+
+.policy-details-back-button:hover {
+  text-decoration: underline;
+}
+
+.policy-details-content-card {
+  background-color: var(--color-card-bg);
+  padding: 3rem;
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+}
+
+.policy-details-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--color-light-text);
+  margin-bottom: 1rem;
+  letter-spacing: -0.05em;
+}
+
+.policy-details-site-url {
+  color: var(--color-medium-text);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.policy-details-meta {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.policy-details-date {
+  color: var(--color-subtle-text);
+  font-size: 0.95rem;
+}
+
+.policy-section {
+  margin-bottom: 3rem;
+}
+
+.section-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1.2rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.summary-heading {
+  color: var(--color-accent-purple);
+}
+
+.summary-content {
+  color: var(--color-light-text);
+  line-height: 1.8;
+  background-color: var(--color-darker-card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-inner-dark);
+  font-size: 1.1rem;
+}
+
+.recommendations-heading {
+  color: var(--color-reco-green);
+}
+
+.recommendations-list {
+  list-style: none;
+  padding: 0;
+  color: var(--color-light-text);
+  line-height: 1.7;
+  background-color: var(--color-darker-card-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-inner-dark);
+}
+
+.recommendations-list li {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.recommendations-list li:last-child {
+  margin-bottom: 0;
+}
+
+.check-icon {
+  margin-right: 0.8rem;
+  color: var(--color-reco-green);
+  font-size: 1.3rem;
+  line-height: 1.7;
+}
+
+.no-recommendations {
+  color: var(--color-subtle-text);
+  font-style: italic;
+}
+
+.raw-text-heading {
+  color: var(--color-light-text);
+}
+
+.raw-text-content {
+  background-color: var(--color-dark-bg);
+  padding: 2rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  max-height: 30rem;
+  overflow-y: auto;
+  color: var(--color-subtle-text);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  font-family: 'Fira Code', 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  box-shadow: var(--shadow-inner-dark-md);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--color-card-bg);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--color-link-blue);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--color-link-blue-hover);
+}
+
+/* --- CSSTransition Animations for Views --- */
+/* Base for all transitions */
+.fade-slide-up-enter, .fade-slide-left-enter, .fade-slide-right-enter {
+    z-index: 1; /* Ensure new view is above old view during transition */
+}
+.fade-slide-up-exit, .fade-slide-left-exit, .fade-slide-right-exit {
+    z-index: 0; /* Old view is behind */
+}
+
+
+/* Fade & Slide Up Animation (e.g., for HomeView entrance) */
+.fade-slide-up-enter {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.fade-slide-up-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+.fade-slide-up-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-slide-up-exit-active {
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 500ms ease-in, transform 500ms ease-in;
+}
+
+/* Fade & Slide Left Animation (e.g., for DashboardView entrance) */
+.fade-slide-left-enter {
+  opacity: 0;
+  transform: translateX(100%);
+}
+.fade-slide-left-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+.fade-slide-left-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-slide-left-exit-active {
+  opacity: 0;
+  transform: translateX(-100%);
+  transition: opacity 500ms ease-in, transform 500ms ease-in;
+}
+
+/* Fade & Slide Right Animation (e.g., for PolicyDetailsView entrance) */
+.fade-slide-right-enter {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+.fade-slide-right-enter-active {
+  opacity: 1;
+  transform: translateX(0%);
+  transition: opacity 500ms ease-out, transform 500ms ease-out;
+}
+.fade-slide-right-exit {
+  opacity: 1;
+  transform: translateX(0%);
+}
+.fade-slide-right-exit-active {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 500ms ease-in, transform 500ms ease-in;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .home-view-container,
+  .dashboard-view-container,
+  .policy-details-view-container {
+    padding: 2rem 1rem;
+  }
+  .home-view-title {
+    font-size: 2.8rem;
+  }
+  .home-view-description {
+    font-size: 1.1rem;
+  }
+  .home-view-cta-button {
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+  }
+  .dashboard-view-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0;
+  }
+  .dashboard-view-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 0;
+  }
+  .dashboard-view-spacer {
+    display: none;
+  }
+  .navbar-links {
+    flex-direction: column;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .navbar-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+  .policy-details-title {
+    font-size: 2.2rem;
+  }
+  .section-heading {
+    font-size: 1.6rem;
+  }
+  .policy-details-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .raw-text-content {
+    max-height: 20rem;
+    padding: 1.5rem;
+  }
+  .policy-details-content-card {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-view-container,
+  .dashboard-view-container,
+  .policy-details-view-container {
+    padding: 1.5rem 0.8rem;
+  }
+  .home-view-title {
+    font-size: 2.2rem;
+  }
+  .home-view-description {
+    font-size: 0.95rem;
+  }
+  .home-view-cta-button {
+    font-size: 0.9rem;
+    padding: 0.9rem 2.2rem;
+  }
+  .policy-details-title {
+    font-size: 1.8rem;
+  }
+  .section-heading {
+    font-size: 1.4rem;
+  }
+  .policy-card {
+    padding: 1.5rem;
+  }
+  .policy-card h3 {
+    font-size: 1.3rem;
+  }
+  .policy-card-summary {
+    font-size: 1rem;
+  }
+}
